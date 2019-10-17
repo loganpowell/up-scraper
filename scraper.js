@@ -32,7 +32,7 @@ const liveDom = async url => {
 const PAGE_CFG = {
   pageURL: BASE_URL,
   selector: '.uscb-list-item',
-  latest: 5,
+  latest: 1,
 }
 
 const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector }) => {
