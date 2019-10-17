@@ -32,7 +32,7 @@ const liveDom = async url => {
 const PAGE_CFG = {
   pageURL: BASE_URL,
   selector: '.uscb-list-item',
-  latest: 1,
+  latest: 3,
 }
 
 const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector }) => {
@@ -143,4 +143,4 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
 
 // spoolContentViaPageLinks(PAGE_CFG, LINKED_CONTENT_CFG, feed).then(r => r) //?
 
-module.exports = { spoolContentViaPageLinks }
+module.exports = { spoolContentViaPageLinks, BASE_CFG, PAGE_CFG, LINKED_CONTENT_CFG }

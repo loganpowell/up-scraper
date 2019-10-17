@@ -2,15 +2,17 @@
 const { Feed } = require('feed')
 const { send } = require('micro')
 const { router, post, get } = require('microrouter')
-const { spoolContentViaPageLinks } = require('./scraper')
+const { spoolContentViaPageLinks, BASE_URL, PAGE_CFG, LINKED_CONTENT_CFG } = require('./scraper')
+
+// const BASE_URL = 'https://www.census.gov/AmericaCounts'
 
 module.exports = router(
   get('/', async (req, res) => {
     let feed = new Feed({
       title: 'America Counts RSS Feed',
       description: "an RSS feed made from the Census' America Counts stories",
-      id: AC_URL,
-      link: AC_URL,
+      id: BASE_URL,
+      link: BASE_URL,
       language: 'en',
       generator: 'Feed',
       feedLinks: {
