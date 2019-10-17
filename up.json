@@ -1,0 +1,13 @@
+{
+  "name": "up-scraper",
+  "profile": "upTest",
+  "regions": [
+    "us-east-1"
+  ],
+  "proxy": {
+    "command": "micro --host localhost --port $PORT"
+  },
+  "lambda": {
+    "memory": 1024
+  }
+}
