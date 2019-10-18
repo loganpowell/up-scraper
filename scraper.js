@@ -1,6 +1,5 @@
 const { JSDOM } = require('jsdom')
 const fetch = require('node-fetch')
-const { Feed } = require('feed')
 
 const BASE_URL = 'https://www.census.gov/AmericaCounts'
 
