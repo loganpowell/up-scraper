@@ -1,7 +1,7 @@
 // see example: https://github.com/apex/up-examples/blob/master/oss/node-micro/up.json
 const http = require('http')
 const { PORT = 3000, UP_STAGE } = process.env
-const { Feed } = require('feed')
+const { Feed } = require('rss2')
 const { spoolContentViaPageLinks, BASE_URL, PAGE_CFG, LINKED_CONTENT_CFG } = require('./scraper')
 
 // const BASE_URL = 'https://www.census.gov/AmericaCounts'

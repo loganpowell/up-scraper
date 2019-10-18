@@ -101,8 +101,10 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
   console.log('spoolContentViaPageLinks -> links.length:', links.length)
   const json = await links.reduce(async (acc, { href, img }) => {
     const ACC = await acc
-    const pageContent = await getContentForPageBySelectors({ ...linkedContentCfg, pageURL: href })
-    const { heading, pageURL, description, author, pubDate } = { ...pageContent, img }
+    const { heading, pageURL, description, author, pubDate } = await getContentForPageBySelectors({
+      ...linkedContentCfg,
+      pageURL: href,
+    })
     const trimedAuthor = author ? author.trim() : null
     const dateString = pubDate ? pubDate.trim() : null
     const date = dateString ? new Date(dateString) : null
