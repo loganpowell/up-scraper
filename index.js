@@ -8,25 +8,24 @@ const { spoolContentViaPageLinks, BASE_URL, PAGE_CFG, LINKED_CONTENT_CFG } = req
 
 const server = http.createServer()
 
-let feed = new Feed({
-  title: 'America Counts RSS Feed',
-  description: "an RSS feed made from the Census' America Counts stories",
-  id: BASE_URL,
-  link: BASE_URL,
-  language: 'en',
-  generator: 'Feed',
-  feedLinks: {
-    json: 'https://loganpowell.github.io/feed/json',
-    atom: 'https://loganpowell.github.io/feed/atom',
-  },
-  author: {
-    name: 'Logan Powell',
-    email: 'logan.t.powell@census.gov',
-    link: 'https://www.github.com/loganpowell',
-  },
-})
-
 server.on('request', async (req, res) => {
+  let feed = new Feed({
+    title: 'America Counts RSS Feed',
+    description: "an RSS feed made from the Census' America Counts stories",
+    id: BASE_URL,
+    link: BASE_URL,
+    language: 'en',
+    generator: 'Feed',
+    feedLinks: {
+      json: 'https://loganpowell.github.io/feed/json',
+      atom: 'https://loganpowell.github.io/feed/atom',
+    },
+    author: {
+      name: 'Logan Powell',
+      email: 'logan.t.powell@census.gov',
+      link: 'https://www.github.com/loganpowell',
+    },
+  })
   // WISHFUL THINKING ////////////////////////////////////////////////////
   // const { macro_config, micro_config } = req.body
   // return spoolContentViaPageLinks(mactro_config, micro_config).then(() => feed.rss2())
