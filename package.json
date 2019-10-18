@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "micro --host localhost --port $PORT",
     "dev": "cross-env NODE_ENV=dev micro-dev"
   },
   "repository": {

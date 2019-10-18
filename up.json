@@ -1,0 +1,7 @@
+{
+  "name": "up-scraper",
+  "profile": "upTest",
+  "regions": [
+    "us-east-1"
+  ]
+}
