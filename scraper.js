@@ -116,30 +116,9 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       image: img,
       author: trimedAuthor,
     })
-    // console.log('feed.rss2():', RSSFeed.rss2())
     return ACC // <- side effects only
   }, Promise.resolve([]))
   return json
 }
-
-// let feed = new Feed({
-//   title: 'America Counts RSS Feed',
-//   description: "an RSS feed made from the Census' America Counts stories",
-//   id: BASE_URL,
-//   link: BASE_URL,
-//   language: 'en',
-//   generator: 'Feed',
-//   feedLinks: {
-//     json: 'https://loganpowell.github.io/feed/json',
-//     atom: 'https://loganpowell.github.io/feed/atom',
-//   },
-//   author: {
-//     name: 'Logan Powell',
-//     email: 'logan.t.powell@census.gov',
-//     link: 'https://www.github.com/loganpowell',
-//   },
-// })
-
-// spoolContentViaPageLinks(PAGE_CFG, LINKED_CONTENT_CFG, feed).then(r => r) //?
 
 module.exports = { spoolContentViaPageLinks, BASE_CFG, PAGE_CFG, LINKED_CONTENT_CFG }
