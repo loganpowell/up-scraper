@@ -116,7 +116,7 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       id: pageURL,
       link: pageURL,
       image: img,
-      author: trimedAuthor,
+      author: [{ name: trimedAuthor }],
     })
     return ACC // <- side effects only
   }, Promise.resolve([]))
