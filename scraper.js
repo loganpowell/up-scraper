@@ -111,8 +111,8 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
     // console.log('result:', result)
     RSSFeed.addItem({
       date,
+      description,
       title: heading,
-      description: description,
       id: pageURL,
       link: pageURL,
       image: img,

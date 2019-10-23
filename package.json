@@ -22,7 +22,7 @@
     "feed": "^4.0.0",
     "jsdom": "^15.2.0",
     "node-fetch": "^2.6.0",
-    "rss2": "^0.1.7"
+    "rss2": "^0.1.10"
   },
   "devDependencies": {
     "cross-env": "^6.0.3"
