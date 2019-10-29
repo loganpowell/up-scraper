@@ -58,7 +58,8 @@ const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector }) 
 
 const LINKED_CONTENT_CFG = {
   selectors: {
-    text_heading: '.uscb-h2',
+    // text_heading: '.uscb-h2',
+    text_heading: '.uscb-banner-image-title',
     text_author: '.author',
     text_pubDate: '.pubdate',
     meta_description: "meta[property='og:description']",
