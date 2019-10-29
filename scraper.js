@@ -61,7 +61,7 @@ const LINKED_CONTENT_CFG = {
     text_heading: '.uscb-h2',
     text_author: '.author',
     text_pubDate: '.pubdate',
-    meta_description: "meta[property='twitter:title']",
+    meta_description: "meta[property='og:description']",
   },
 }
 
