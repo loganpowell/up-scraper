@@ -30,7 +30,7 @@ const liveDom = async url => {
 
 const PAGE_CFG = {
   pageURL: BASE_URL,
-  banner: '.uscb-text-decoration-none',
+  banner: '.topbanner',
   selector: '.uscb-list-item',
   latest: 5,
 }
@@ -47,14 +47,14 @@ const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector, ba
   // get document
   const document = dom.window.document
   // get banner
-  const href1 = document.querySelector(banner).href
+  const href1 = document.querySelector(banner).querySelector('a').href
   console.log('banner:', href1)
   // get links by selector
   const links = Array.from(document.querySelectorAll(selector)).map(l => l.href || 'href not found')
   const allLinks = [href1, ...links]
   // clean up jsdom (shared instance between multiple invocations/constructions)
   dom.window.close()
-  // console.log('allLinks:', allLinks.slice(0, latest))
+  console.log('allLinks:', allLinks.slice(0, latest))
   return latest ? allLinks.slice(0, latest) : allLinks
 }
 
