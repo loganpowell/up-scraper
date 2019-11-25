@@ -1,15 +1,13 @@
-const { JSDOM } = require('jsdom')
-const fetch = require('node-fetch')
+const { JSDOM } = require("jsdom")
+const fetch = require("node-fetch")
 
-const BASE_URL = 'https://www.census.gov/AmericaCounts'
-
-const BASE_CFG = {
-  url: BASE_URL,
-  contentType: 'text/html',
+const config_dom = url => ({
+  url,
+  contentType: "text/html",
   includeNodeLocations: true,
   pretendToBeVisual: true,
-  runScripts: 'outside-only', // optional: "dangerously"
-}
+  runScripts: "outside-only" // optional: "dangerously"
+})
 
 /**
  * Asynchronous script loading:
@@ -18,83 +16,70 @@ const BASE_CFG = {
  *
  * */
 
-const createDomFromHtml = (html, cfg = BASE_CFG) => new JSDOM(html, cfg)
+const createDomFromHtml = (html, url) => new JSDOM(html, config_dom(url))
 
 const liveDom = async url => {
   // fetch html
-  const html = await fetch(url).then(r => r.text())
+  const html = await fetch(url)
+    .then(r => r.text())
+    .catch(e => console.log("error in liveDom:", e))
   // construct dom
-  return createDomFromHtml(html)
+  return createDomFromHtml(html, url)
   // remember to `window.close()` when done with the return
-}
-
-const PAGE_CFG = {
-  pageURL: BASE_URL,
-  banner: '.topbanner',
-  selector: '.uscb-list-item',
-  latest: 5,
 }
 
 const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector, banner }) => {
   console.table({
-    function: 'getHrefsFromPageBySelector',
+    function: "getHrefsFromPageBySelector",
     pageURL,
     banner,
     selector,
-    latest,
+    latest
   })
   const dom = await liveDom(pageURL)
   // get document
   const document = dom.window.document
   // get banner
-  const href1 = document.querySelector(banner).querySelector('a').href
-  console.log('banner:', href1)
+  const href1 = banner ? document.querySelector(banner).querySelector("a").href : null
+  console.log("banner:", href1)
   // get links by selector
-  const links = Array.from(document.querySelectorAll(selector)).map(l => l.href || 'href not found')
-  const allLinks = [href1, ...links]
+  const links = Array.from(document.querySelectorAll(selector)).map(l => {
+    return l.href ? l.href : l.querySelector("a").href || "href not found"
+  })
+  const allLinks = href1 ? [href1, ...links] : links
   // clean up jsdom (shared instance between multiple invocations/constructions)
   dom.window.close()
-  console.log('allLinks:', allLinks.slice(0, latest))
+  console.log("allLinks:", allLinks.slice(0, latest))
   return latest ? allLinks.slice(0, latest) : allLinks
 }
 
 // getHrefsFromPageBySelector(PAGE_CFG).then(r => r) //?
 
-const LINKED_CONTENT_CFG = {
-  selectors: {
-    // text_heading: '.uscb-h2',
-    meta_img: "meta[property='og:image']",
-    text_heading: '.uscb-banner-image-title',
-    text_author: '.author',
-    text_pubDate: '.pubdate',
-    meta_description: "meta[property='og:description']",
-    popText_content: '.uscb-text-image-text',
-  },
-}
-
 const getContentForPageBySelectors = async ({ pageURL, selectors }) => {
+  console.log("pageURL:", pageURL, "| selectors:", selectors)
   const dom = await liveDom(pageURL)
   // console.log('dom:', dom.window.document.body)
   const document = dom.window.document
+  const has_selector = sel => (document.querySelector(sel) ? true : false)
   const trimRgx = /[\t\n]/g
-  const getContentForTuple = ([key, selector]) => {
+  const getContentForTuple = ([key, sel]) => {
     let [type, tag] = key.split(/\.|_/g) // `let` <- assigned/computed
-    return type === 'text'
+    return type === "text"
       ? {
-          [tag]: document.querySelector(selector)
+          [tag]: has_selector(sel)
             ? document
-                .querySelector(selector)
-                .textContent.replace(trimRgx, '')
+                .querySelector(sel)
+                .textContent.replace(trimRgx, "")
                 .trim()
-            : null,
+            : null
         }
-      : type === 'img'
-      ? { [tag]: document.querySelector(selector).querySelector('img').src }
-      : type === 'meta'
-      ? { [tag]: document.head.querySelector(selector).content }
-      : type === 'popText'
-      ? { [tag]: document.querySelector(selector).textContent.trim() }
-      : { [tag]: document.querySelector(selector) }
+      : type === "img"
+      ? { [tag]: has_selector(sel) ? document.querySelector(sel).querySelector("img").src : "" }
+      : type === "meta"
+      ? { [tag]: document.head.querySelector(sel).content }
+      : type === "popText"
+      ? { [tag]: document.querySelector(sel).textContent.trim() }
+      : { [tag]: document.querySelector(sel) }
   }
   const entries = Object.entries(selectors).reduce(
     (acc, cur) => ({ pageURL, ...acc, ...getContentForTuple(cur) }),
@@ -107,7 +92,7 @@ const getContentForPageBySelectors = async ({ pageURL, selectors }) => {
 
 const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
   const links = await getHrefsFromPageBySelector(pageCfg)
-  console.log('spoolContentViaPageLinks -> links.length:', links.length)
+  console.log("spoolContentViaPageLinks -> links.length:", links.length)
   const json = await links.reduce(async (acc, href) => {
     const ACC = await acc
     const {
@@ -117,10 +102,10 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       author,
       pubDate,
       img,
-      content,
+      content
     } = await getContentForPageBySelectors({
       ...linkedContentCfg,
-      pageURL: href,
+      pageURL: href
     })
     const trimedAuthor = author ? author.trim() : null
     const dateString = pubDate ? pubDate.trim() : null
@@ -134,11 +119,11 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       link: pageURL,
       image: img,
       content,
-      author: [{ name: trimedAuthor }],
+      author: [{ name: trimedAuthor }]
     })
     return ACC // <- side effects only
   }, Promise.resolve([]))
   return json
 }
 
-module.exports = { spoolContentViaPageLinks, BASE_CFG, PAGE_CFG, LINKED_CONTENT_CFG }
+module.exports = { spoolContentViaPageLinks }
