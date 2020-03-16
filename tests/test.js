@@ -1,5 +1,5 @@
 const { spoolContentViaPageLinks } = require("../scraper.js")
-const { PR_URL, PR_PAGE_CFG, PR_LINKED_CONTENT_CFG } = require("../configs.js")
+const { PR_URL, pr_page_cfg, PR_LINKED_CONTENT_CFG } = require("../configs.js")
 const { init_RSS } = require("../index.js")
 
 let feed = init_RSS(
@@ -8,6 +8,8 @@ let feed = init_RSS(
   "an RSS feed made from Census' Press Releases"
 )
 
-spoolContentViaPageLinks(PR_PAGE_CFG, PR_LINKED_CONTENT_CFG, feed).then(() => {
-  return feed.rss2()
-}) //?
+spoolContentViaPageLinks(pr_page_cfg(3), PR_LINKED_CONTENT_CFG, feed).then(
+  () => {
+    return feed.rss2()
+  }
+) //?
