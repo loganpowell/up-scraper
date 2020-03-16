@@ -6,7 +6,7 @@ const ac_page_cfg = latest => ({
   pageURL: AC_URL,
   banner: ".topbanner",
   selector: ".uscb-list-item",
-  latest
+  latest,
 })
 
 const AC_LINKED_CONTENT_CFG = {
@@ -17,8 +17,8 @@ const AC_LINKED_CONTENT_CFG = {
     text_description: ".pagetitle",
     text_author: ".author",
     text_pubDate: ".pubdate",
-    popText_content: ".uscb-text-image-text"
-  }
+    popText_content: ".uscb-text-image-text",
+  },
 }
 
 // Stats for Stories
@@ -28,7 +28,7 @@ const SS_URL = "https://www.census.gov/newsroom/stories.html"
 const ss_page_cfg = latest => ({
   pageURL: SS_URL,
   selector: ".uscb-list-item",
-  latest
+  latest,
 })
 
 const SS_LINKED_CONTENT_CFG = {
@@ -39,8 +39,8 @@ const SS_LINKED_CONTENT_CFG = {
     text_description: ".pagetitle",
     meta_author: "meta[name='DC.creator']",
     text_pubDate: ".publicationdate",
-    popText_content: ".uscb-text-image-text"
-  }
+    popText_content: ".uscb-text-image-text",
+  },
 }
 
 // Jobs
@@ -50,7 +50,7 @@ const JOBS_URL = "https://2020census.gov/en/jobs"
 const JOBS_PAGE_CFG = {
   pageURL: JOBS_URL,
   selector: ".uscb-header-nav-item",
-  latest: 4
+  latest: 4,
 }
 
 const JOBS_LINKED_CONTENT_CFG = {
@@ -61,8 +61,27 @@ const JOBS_LINKED_CONTENT_CFG = {
     text_description: ".cmp-teaser__title",
     // meta_author: "meta[name='DC.creator']"
     // meta_pubDate: "meta[name='DC.date.created']",
-    text_content: ".cmp-text"
-  }
+    text_content: ".cmp-text",
+  },
+}
+
+const PR_URL = "https://www.census.gov/newsroom/press-releases.html"
+
+const pr_page_cfg = latest => ({
+  pageURL: PR_URL,
+  selector: ".uscb-list-item",
+  latest,
+})
+
+const PR_LINKED_CONTENT_CFG = {
+  selectors: {
+    meta_img: "meta[property='og:image']",
+    meta_heading: "meta[property='og:title']",
+    text_description: ".cmp-title__text",
+    meta_author: "meta[name='DC.creator']",
+    text_pubDate: "meta[name='DC.date.reviewed']",
+    para3_content: ".uscb-text-media-text",
+  },
 }
 
 module.exports = {
@@ -74,5 +93,8 @@ module.exports = {
   SS_LINKED_CONTENT_CFG,
   JOBS_URL,
   JOBS_PAGE_CFG,
-  JOBS_LINKED_CONTENT_CFG
+  JOBS_LINKED_CONTENT_CFG,
+  PR_URL,
+  pr_page_cfg,
+  PR_LINKED_CONTENT_CFG,
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+  xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Census Press Releases RSS Feed</title>
+    <link>https://www.census.gov/newsroom/press-releases.html</link>
+    <description>an RSS feed made from Census' Press Releases</description>
+    <lastBuildDate>Mon, 16 Mar 2020 16:54:54 GMT</lastBuildDate>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <generator>Feed</generator>
+    <language>en</language>
+    <atom:link href="https://loganpowell.github.io/feed/atom" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[Statement on Modifying 2020 Census Operations]]></title>
+      <link>https://www.census.gov/newsroom/press-releases/2020/modifying-2020-operations-for-counting-college-students.html</link>
+      <guid>https://www.census.gov/newsroom/press-releases/2020/modifying-2020-operations-for-counting-college-students.html</guid>
+      <description><![CDATA[Census Bureau Statement on Modifying 2020 Census Operations to Make Sure College Students are Counted]]></description>
+      <content:encoded><![CDATA[MARCH┬á15,┬á2020┬áΓÇö┬áThe┬áU.S.┬áCensus Bureau┬ácontinues to┬ácarefully monitor the coronavirus (COVID-19) situation and follow the guidance of┬áfederal, state┬áand local health┬áauthorities.┬áWe are adjusting some operations as outlined below with┬átwo key principles┬áin mind: protecting the health and safety of our staff and the public┬áand fulfilling┬áour┬ástatutory requirement┬áto deliver the 2020 Census counts to the President on schedule. ┬á
+As of┬átoday, over 5 million┬áhave responded online to the 2020 Census. Currently, the planned completion date for data collection for the 2020 Census is┬áJuly 31, 2020, however, that date can and will be adjusted if necessary as the situation evolves in order to achieve┬áa complete and accurate count.
+It has never been easier to respond on your own, whether┬áonline, over the┬áphone┬áor by┬ámailΓÇöall without having to meet a census taker.]]></content:encoded>
+      <author>US Census Bureau</author>
+      <enclosure url="https://www.census.gov/content/dam/Census/public/brand/census-logo-sharing-card.jpg" length="0" type="image/jpg"/>
+    </item>
+    <item>
+      <title><![CDATA[WomenΓÇÖs Earnings by Occupation From the 2018 American Community Survey]]></title>
+      <link>https://www.census.gov/newsroom/press-releases/2020/acs-womens-earnings.html</link>
+      <guid>https://www.census.gov/newsroom/press-releases/2020/acs-womens-earnings.html</guid>
+      <description><![CDATA[WomenΓÇÖs Earnings by Occupation From the 2018 American Community Survey]]></description>
+      <content:encoded><![CDATA[MARCH 13, 2020 ΓÇö In honor of WomenΓÇÖs History Month, the U.S. Census Bureau today released a graphic showing median earnings of women in certain occupations from the 2018 American Community Survey. The occupation table shows the percentage of women in select occupations and the earnings of full-time, year-round female workers in 2018. It compares earnings to those of men in the same occupations.
+The Census Bureau collects data on industry, occupation and class of worker for the labor force.
+No news release associated with this product. Tip Sheet only.]]></content:encoded>
+      <author>US Census Bureau</author>
+      <enclosure url="https://www.census.gov/content/dam/Census/public/brand/census-logo-sharing-card.jpg" length="0" type="image/jpg"/>
+    </item>
+  </channel>
+</rss>

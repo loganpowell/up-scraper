@@ -6,7 +6,7 @@ const config_dom = url => ({
   contentType: "text/html",
   includeNodeLocations: true,
   pretendToBeVisual: true,
-  runScripts: "outside-only" // optional: "dangerously"
+  runScripts: "outside-only", // optional: "dangerously"
 })
 
 /**
@@ -28,19 +28,26 @@ const liveDom = async url => {
   // remember to `window.close()` when done with the return
 }
 
-const getHrefsFromPageBySelector = async ({ latest = null, pageURL, selector, banner }) => {
+const getHrefsFromPageBySelector = async ({
+  latest = null,
+  pageURL,
+  selector,
+  banner,
+}) => {
   console.table({
     function: "getHrefsFromPageBySelector",
     pageURL,
     banner,
     selector,
-    latest
+    latest,
   })
   const dom = await liveDom(pageURL)
   // get document
   const document = dom.window.document
   // get banner
-  const href1 = banner ? document.querySelector(banner).querySelector("a").href : null
+  const href1 = banner
+    ? document.querySelector(banner).querySelector("a").href
+    : null
   console.log("banner:", href1)
   // get links by selector
   const links = Array.from(document.querySelectorAll(selector)).map(l => {
@@ -71,14 +78,27 @@ const getContentForPageBySelectors = async ({ pageURL, selectors }) => {
                 .querySelector(sel)
                 .textContent.replace(trimRgx, "")
                 .trim()
-            : null
+            : null,
         }
       : type === "img"
-      ? { [tag]: has_selector(sel) ? document.querySelector(sel).querySelector("img").src : "" }
+      ? {
+          [tag]: has_selector(sel)
+            ? document.querySelector(sel).querySelector("img").src
+            : "",
+        }
       : type === "meta"
       ? { [tag]: document.head.querySelector(sel).content }
       : type === "popText"
       ? { [tag]: document.querySelector(sel).textContent.trim() }
+      : type === "para3"
+      ? {
+          [tag]: document
+            .querySelector(sel)
+            .textContent.trim()
+            .split(/\n|\r\n/g)
+            .slice(0, 3)
+            .join("\n"),
+        }
       : { [tag]: document.querySelector(sel) }
   }
   const entries = Object.entries(selectors).reduce(
@@ -102,10 +122,10 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       author,
       pubDate,
       img,
-      content
+      content,
     } = await getContentForPageBySelectors({
       ...linkedContentCfg,
-      pageURL: href
+      pageURL: href,
     })
     const trimedAuthor = author ? author.trim() : null
     const dateString = pubDate ? pubDate.trim() : null
@@ -119,10 +139,11 @@ const spoolContentViaPageLinks = async (pageCfg, linkedContentCfg, RSSFeed) => {
       link: pageURL,
       image: img,
       content,
-      author: [{ name: trimedAuthor }]
+      author: [{ name: trimedAuthor }],
     })
     return ACC // <- side effects only
   }, Promise.resolve([]))
+  console.log({ json })
   return json
 }
 

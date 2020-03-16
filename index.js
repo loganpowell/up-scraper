@@ -1,6 +1,6 @@
 // see example: https://github.com/apex/up-examples/blob/master/oss/node-micro/up.json
 const http = require("http")
-const { PORT = 3000, UP_STAGE } = process.env
+const { PORT = 3333, UP_STAGE } = process.env
 const { Feed } = require("rss2")
 const { spoolContentViaPageLinks } = require("./scraper")
 const {
@@ -12,7 +12,10 @@ const {
   SS_LINKED_CONTENT_CFG,
   JOBS_URL,
   JOBS_PAGE_CFG,
-  JOBS_LINKED_CONTENT_CFG
+  JOBS_LINKED_CONTENT_CFG,
+  PR_URL,
+  pr_page_cfg,
+  PR_LINKED_CONTENT_CFG,
 } = require("./configs")
 
 const server = http.createServer()
@@ -34,13 +37,13 @@ let init_RSS = (URL, title, description) =>
     generator: "Feed",
     feedLinks: {
       json: "https://loganpowell.github.io/feed/json",
-      atom: "https://loganpowell.github.io/feed/atom"
+      atom: "https://loganpowell.github.io/feed/atom",
     },
     author: {
       name: "Logan Powell",
       email: "logan.t.powell@census.gov",
-      link: "https://www.github.com/loganpowell"
-    }
+      link: "https://www.github.com/loganpowell",
+    },
   })
 
 server.on("request", async (req, res) => {
@@ -48,6 +51,8 @@ server.on("request", async (req, res) => {
     const ac_match = /\/ac\//g
     const ss_match = /\/ss\//g
     const jobs_match = /\/jobs/g
+    const pr_match = /\/pr\//g
+
     if (ac_match.test(req.url)) {
       let count = req.url.slice(4)
       console.log("request:", req.url)
@@ -58,7 +63,11 @@ server.on("request", async (req, res) => {
         "an RSS feed made from the Census' America Counts stories"
       )
 
-      const rss = await spoolContentViaPageLinks(ac_page_cfg(count), AC_LINKED_CONTENT_CFG, feed)
+      const rss = await spoolContentViaPageLinks(
+        ac_page_cfg(count),
+        AC_LINKED_CONTENT_CFG,
+        feed
+      )
         .then(() => {
           return feed.rss2()
         })
@@ -76,7 +85,11 @@ server.on("request", async (req, res) => {
         "an RSS feed made from the Census' Stats for Stories articles"
       )
 
-      const rss = await spoolContentViaPageLinks(ss_page_cfg(count), SS_LINKED_CONTENT_CFG, feed)
+      const rss = await spoolContentViaPageLinks(
+        ss_page_cfg(count),
+        SS_LINKED_CONTENT_CFG,
+        feed
+      )
         .then(() => {
           return feed.rss2()
         })
@@ -92,7 +105,33 @@ server.on("request", async (req, res) => {
         "an RSS feed made from the Census' Jobs Site"
       )
 
-      const rss = await spoolContentViaPageLinks(JOBS_PAGE_CFG, JOBS_LINKED_CONTENT_CFG, feed)
+      const rss = await spoolContentViaPageLinks(
+        JOBS_PAGE_CFG,
+        JOBS_LINKED_CONTENT_CFG,
+        feed
+      )
+        .then(() => {
+          return feed.rss2()
+        })
+        .catch(e => console.log(e))
+
+      console.log("PORT:", PORT)
+      res.end(rss)
+    } else if (pr_match.test(req.url)) {
+      let count = req.url.slice(4)
+      console.log("COUNT:", count)
+      console.log("request:", req.url)
+      let feed = init_RSS(
+        PR_URL,
+        "Census Press Releases RSS Feed",
+        "an RSS feed made from Census' Press Releases"
+      )
+
+      const rss = await spoolContentViaPageLinks(
+        pr_page_cfg(count),
+        PR_LINKED_CONTENT_CFG,
+        feed
+      )
         .then(() => {
           return feed.rss2()
         })
@@ -103,3 +142,5 @@ server.on("request", async (req, res) => {
     }
   }
 })
+
+module.exports = { init_RSS }
