@@ -97,7 +97,7 @@ const getContentForPageBySelectors = async ({ pageURL, selectors }) => {
             .textContent.trim()
             .split(/\r?\n/g)
             .slice(0, 3)
-            .join("\r\n"),
+            .join("<br>"),
         }
       : { [tag]: document.querySelector(sel) }
   }
