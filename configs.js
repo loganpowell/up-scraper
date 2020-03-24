@@ -75,7 +75,7 @@ const pr_page_cfg = latest => ({
 
 const PR_LINKED_CONTENT_CFG = {
   selectors: {
-    meta_img: "meta[property='og:image']",
+    // meta_img: "meta[property='og:image']",
     meta_heading: "meta[property='og:title']",
     text_description: ".cmp-title__text",
     meta_author: "meta[name='DC.creator']",
